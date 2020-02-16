@@ -9,29 +9,29 @@ A MySQL database version control system that you can use with XAMPP, MAMP, WAMP 
 
 Using the root folder of Wordpress, of course can be used in any folder but extract project files like this.
 
-*wordpress/
-*|--- wp-content/
-*|--- wp-config.php
-*|--- wp-config-sample.php
-*|--- ... 
-*|--- ... 
-*|--- ... 
-*|--- database/
-*|--- malumat
-*|--- malumatconfig
-*|--- ... 
-*|--- ... 
-*|--- ... 
+>wordpress/
+>|--- wp-content/
+>|--- wp-config.php
+>|--- wp-config-sample.php
+>|--- ... 
+>|--- ... 
+>|--- ... 
+>|--- database/
+>|--- malumat
+>|--- malumatconfig
+>|--- ... 
+>|--- ... 
+>|--- ... 
 
 
 ## Available commands:
 
-*`./malumat config` to set database, user credentials and MySQL executables.
-*`./malumat push` to push the database from your local ./database folder to your MySQL installation.
-*`./malumat pull` to pull the database content from your MySQL installation.
-*`./malumat save` to save a copy of the database content from your MySQL installation.
-*`./malumat show` to see what you saved in ./database
-*`./malumat flush` to remove all temporary saves in ./database
+>`./malumat config` to set database, user credentials and MySQL executables.
+>`./malumat push` to push the database from your local ./database folder to your MySQL installation.
+>`./malumat pull` to pull the database content from your MySQL installation.
+>`./malumat save` to save a copy of the database content from your MySQL installation.
+>`./malumat show` to see what you saved in ./database
+>`./malumat flush` to remove all temporary saves in ./database
 
 ### Thanks for interest.
 
