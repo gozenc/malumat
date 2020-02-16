@@ -8,7 +8,7 @@ A MySQL database version control system that you can use with XAMPP, MAMP, WAMP 
 ## Sample usage in Wordpress folder structure:
 
 Using the root folder of Wordpress, of course can be used in any folder but extract project files like this.
-`
+<pre>
 wordpress/
 |--- wp-content/
 |--- wp-config.php
@@ -22,7 +22,7 @@ wordpress/
 |--- ... 
 |--- ... 
 |--- ... 
-`
+</pre>
 
 ## Available commands:
 
