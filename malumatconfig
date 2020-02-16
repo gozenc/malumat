@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#======================LOGIN=======================#
+
+CONF_DBNAME="apikal"
+CONF_DBUSER="root"
+CONF_DBPASS=""
+PATH_MYSQL="/Applications/XAMPP/bin/mysql"
+PATH_MYSQLDUMP="/Applications/XAMPP/bin/mysqldump"
+
+#=====================TESTING======================#
+
+#input="junk"
+#inputArray=()
+#i=0
+#while [ "$input" != "" ]; [ $i -le 2 ]; do 
+#	if [ i = 0 ]; then
+#		read -p "Enter database user: " input
+#		inputArray+=("$input");
+#		i=$(( $i + 1 ));
+#	elif [ i = 1 ]; then
+#		read -p "Enter database name: " input
+#		inputArray+=("$input");
+#		i=$(( $i + 1 ));
+#	elif [ i = 2 ]; then
+#		read -p "Enter database password: " input
+#		inputArray+=("$input");
+#		i=$(( $i + 1 ));
+#	else
+#		for arg in "${inputArray[@]}"; do
+#		    [ ! -z "$arg" ] && printf "%s\n" "$arg"
+#		done
+#	fi
+#done < file.txt
+
+#=====================CONFIG======================#
+# COLORS
+NC='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BROWN='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+# DATE
+DATESTR=$(date "+%Y-%m-%d-%H-%M-%S")

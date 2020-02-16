@@ -1,0 +1,52 @@
+#!/bin/bash
+
+source ./malumatconfig
+
+# PROMPTS
+MYSQL=$PATH_MYSQL
+MYSQLDUMP=$PATH_MYSQLDUMP
+
+DBUSER=$CONF_DBUSER
+DBPASS=$CONF_DBPASS
+DBNAME=$CONF_DBNAME
+
+BASEDIR=$(pwd)
+DBPATH=$BASEDIR"/database"
+DB=$DBPATH"/"$DBNAME".sql.bak"
+
+if [ $1 = "push" ]; then
+	printf "For MySQL root user ---> ";
+	$MYSQL -u $DBUSER -p $DBPASS $DBNAME < $DB;
+	echo "Database" $DBNAME "pushed...";
+elif [ $1 = "pull" ]; then
+	$MYSQLDUMP -u $DBUSER --add-drop-table --databases $DBNAME > $DB;
+	echo "Database" $DBNAME "pulled...";
+elif [ $1 = "save" ]; then
+	$MYSQLDUMP -u $DBUSER --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
+	echo "Database" $DBNAME "copied and saved...";
+elif [ $1 = "config" ]; then
+	vim ./malumatconfig
+elif [ $1 = "show" ]; then
+	ls $DBPATH;
+elif [ $1 = "flush" ]; then
+	while true; do
+		read -p "Are you sure to flush your $DBNAME database saves? " yn
+		case $yn in
+			[Yy]* ) rm $DBPATH"/"$DBNAME"-"*; echo "Saves flushed..."; break;;
+			[Nn]* ) echo "Allright"; exit;;
+			* ) echo "Please answer yes or no.";;
+		esac
+	done
+else
+	echo "";
+	echo "'$1' is a wrong command...";
+	echo "";
+	echo -e "${CYAN}USE"	"./malumat config${NC} to set database, user credentials and MySQL executables.";
+	echo -e "${BROWN}USE"	"./malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
+	echo -e "${BLUE}USE"	"./malumat pull${NC} to pull the database content from your MySQL installation.";
+	echo -e "${GREEN}USE"	"./malumat save${NC} to save a copy of the database content from your MySQL installation.";
+	echo -e "${PURPLE}USE"	"./malumat show${NC} to see what you saved in "$DBPATH;
+	echo -e "${RED}USE"	"./malumat flush${NC} to remove all temporary saves in "$DBPATH;
+	echo "";
+
+fi
