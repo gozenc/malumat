@@ -2,17 +2,26 @@
 
 source ./malumatconfig
 
-# PROMPTS
-MYSQL=$PATH_MYSQL
-MYSQLDUMP=$PATH_MYSQLDUMP
+#=====================CONFIG======================#
 
-DBUSER=$CONF_DBUSER
-DBPASS=$CONF_DBPASS
-DBNAME=$CONF_DBNAME
+# COLORS
+NC='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BROWN='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
 
+# DATE
+DATESTR=$(date "+%Y-%m-%d-%H-%M-%S")
+
+# PATH
 BASEDIR=$(pwd)
 DBPATH=$BASEDIR"/database"
 DB=$DBPATH"/"$DBNAME".sql.bak"
+
+#===================START========================#
 
 if [ $1 = "push" ]; then
 	printf "For MySQL root user ---> ";
@@ -24,8 +33,8 @@ elif [ $1 = "pull" ]; then
 elif [ $1 = "save" ]; then
 	$MYSQLDUMP -u $DBUSER --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
 	echo "Database" $DBNAME "copied and saved...";
-elif [ $1 = "config" ]; then
-	vim ./malumatconfig
+elif [ $1 = "env" ]; then
+	vim ./malumatenv
 elif [ $1 = "show" ]; then
 	ls $DBPATH;
 elif [ $1 = "flush" ]; then
@@ -41,7 +50,7 @@ else
 	echo "";
 	echo "'$1' is a wrong command...";
 	echo "";
-	echo -e "${CYAN}USE"	"./malumat config${NC} to set database, user credentials and MySQL executables.";
+	echo -e "${CYAN}USE"	"./malumat env${NC} to set database, user credentials and MySQL executables.";
 	echo -e "${BROWN}USE"	"./malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
 	echo -e "${BLUE}USE"	"./malumat pull${NC} to pull the database content from your MySQL installation.";
 	echo -e "${GREEN}USE"	"./malumat save${NC} to save a copy of the database content from your MySQL installation.";
@@ -50,3 +59,29 @@ else
 	echo "";
 
 fi
+
+
+#===================TESTING AREA====================#
+
+#input="junk"
+#inputArray=()
+#i=0
+#while [ "$input" != "" ]; [ $i -le 2 ]; do 
+#	if [ i = 0 ]; then
+#		read -p "Enter database user: " input
+#		inputArray+=("$input");
+#		i=$(( $i + 1 ));
+#	elif [ i = 1 ]; then
+#		read -p "Enter database name: " input
+#		inputArray+=("$input");
+#		i=$(( $i + 1 ));
+#	elif [ i = 2 ]; then
+#		read -p "Enter database password: " input
+#		inputArray+=("$input");
+#		i=$(( $i + 1 ));
+#	else
+#		for arg in "${inputArray[@]}"; do
+#		    [ ! -z "$arg" ] && printf "%s\n" "$arg"
+#		done
+#	fi
+#done < file.txt

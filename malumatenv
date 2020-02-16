@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#====================ENV VARS======================#
+
+DBNAME="apikal"
+DBUSER="root"
+DBPASS=""
+MYSQL="/Applications/XAMPP/bin/mysql"
+MYSQLDUMP="/Applications/XAMPP/bin/mysqldump"
+
+#=====================DANKE !======================#
