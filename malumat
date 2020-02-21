@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./malumatenv
+source ./.malumatenv
 
 #=====================CONFIG======================#
 
@@ -25,18 +25,21 @@ DB=$DBPATH"/"$DBNAME".sql.bak"
 
 if [ $1 = "push" ]; then
 	printf "For MySQL root user ---> ";
-	$MYSQL -u $DBUSER -p $DBPASS $DBNAME < $DB;
+	$MYSQL -u $DBUSER -p$DBPASS $DBNAME < $DB;
 	echo "Database" $DBNAME "pushed...";
 elif [ $1 = "pull" ]; then
-	$MYSQLDUMP -u $DBUSER --add-drop-table --databases $DBNAME > $DB;
+	$MYSQLDUMP -u $DBUSER -p$DBPASS --add-drop-table --databases $DBNAME > $DB;
 	echo "Database" $DBNAME "pulled...";
 elif [ $1 = "save" ]; then
-	$MYSQLDUMP -u $DBUSER --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
+	$MYSQLDUMP -u $DBUSER -p$DBPASS --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
 	echo "Database" $DBNAME "copied and saved...";
 elif [ $1 = "env" ]; then
 	vim ./malumatenv
 elif [ $1 = "show" ]; then
 	ls $DBPATH;
+elif [ $1 = "create" ]; then
+	mkdir $DBPATH;
+	vim ./malumatenv
 elif [ $1 = "flush" ]; then
 	while true; do
 		read -p "Are you sure to flush your $DBNAME database saves? " yn
