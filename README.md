@@ -4,6 +4,10 @@
 
 A MySQL database version control system that you can use with XAMPP, MAMP, WAMP installations on MacOSX. I wrote this because I wanted to also push database files in Git commits. Pretty useful for me in Wordpress projects. Just setup your credentials with `./malumat env` then, add your **mysqldump** and **mysql** executables, then push & pull like Git. Save your work then add it to your repo. Probably there are thousands of scripts like that but I just needed a basic one for myself. 
 
+## Now Windows is also supported
+
+Needs work but I already needed to use it in Windows, so I'll develop it in time. You can enter your database credentials in `malumat.bat` and type `malumat.bat pull` or `push`. Other commands will be added in future.
+
 
 ## Sample usage in Wordpress folder structure:
 
