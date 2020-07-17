@@ -12,6 +12,7 @@ BROWN='\033[0;33m'
 BLUE='\033[0;34m'
 PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
+LIGHTBLUE='\033[0;94m'
 
 # DATE
 DATESTR=$(date "+%Y-%m-%d-%H-%M-%S")
@@ -34,12 +35,14 @@ elif [ $1 = "save" ]; then
 	$MYSQLDUMP -u $DBUSER -p$DBPASS --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
 	echo "Database" $DBNAME "copied and saved...";
 elif [ $1 = "env" ]; then
-	vim ./malumatenv
+	vim .malumatenv
 elif [ $1 = "show" ]; then
 	ls $DBPATH;
 elif [ $1 = "create" ]; then
 	mkdir $DBPATH;
-	vim ./malumatenv
+	vim .malumatenv
+elif [ $1 = "renameto" ]; then
+	cp $DB $DBPATH"/"$2.sql.bak && sed -i '' "s/"$DBNAME"/"$2"/" $DBPATH"/"$2.sql.bak && sed -i '' "s/"$DBNAME"/"$2"/" .malumatenv
 elif [ $1 = "flush" ]; then
 	while true; do
 		read -p "Are you sure to flush your $DBNAME database saves? " yn
@@ -49,6 +52,16 @@ elif [ $1 = "flush" ]; then
 			* ) echo "Please answer yes or no.";;
 		esac
 	done
+elif [ $1 = "help" ]; then
+	echo "";
+	echo -e "${CYAN}USE"	"./malumat env${NC} to set database, user credentials and MySQL executables.";
+	echo -e "${BROWN}USE"	"./malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
+	echo -e "${BLUE}USE"	"./malumat pull${NC} to pull the database content from your MySQL installation.";
+	echo -e "${LIGHTBLUE}USE"	"./malumat renameto yournewname${NC} to get copy of the current database, rename and set is as default database.";
+	echo -e "${GREEN}USE"	"./malumat save${NC} to save a copy of the database content from your MySQL installation.";
+	echo -e "${PURPLE}USE"	"./malumat show${NC} to see what you saved in "$DBPATH;
+	echo -e "${RED}USE"	"./malumat flush${NC} to remove all temporary saves in "$DBPATH;
+	echo "";
 else
 	echo "";
 	echo "'$1' is a wrong command...";
@@ -56,6 +69,7 @@ else
 	echo -e "${CYAN}USE"	"./malumat env${NC} to set database, user credentials and MySQL executables.";
 	echo -e "${BROWN}USE"	"./malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
 	echo -e "${BLUE}USE"	"./malumat pull${NC} to pull the database content from your MySQL installation.";
+	echo -e "${LIGHTBLUE}USE"	"./malumat renameto yournewname${NC} to get copy of the current database, rename and set is as default database.";
 	echo -e "${GREEN}USE"	"./malumat save${NC} to save a copy of the database content from your MySQL installation.";
 	echo -e "${PURPLE}USE"	"./malumat show${NC} to see what you saved in "$DBPATH;
 	echo -e "${RED}USE"	"./malumat flush${NC} to remove all temporary saves in "$DBPATH;
