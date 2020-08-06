@@ -4,6 +4,7 @@
 
 DBNAME="apikal"
 DBUSER="root"
+DBHOST="localhost"
 DBPASS=""
 MYSQL="/Applications/XAMPP/bin/mysql"
 MYSQLDUMP="/Applications/XAMPP/bin/mysqldump"

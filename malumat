@@ -26,13 +26,13 @@ DB=$DBPATH"/"$DBNAME".sql.bak"
 
 if [ $1 = "push" ]; then
 	printf "For MySQL root user ---> ";
-	$MYSQL -u $DBUSER -p$DBPASS $DBNAME < $DB;
+	$MYSQL -u $DBUSER -p$DBPASS -h $DBHOST $DBNAME < $DB;
 	echo "Database" $DBNAME "pushed...";
 elif [ $1 = "pull" ]; then
-	$MYSQLDUMP -u $DBUSER -p$DBPASS --add-drop-table --databases $DBNAME > $DB;
+	$MYSQLDUMP -u $DBUSER -p$DBPASS -h $DBHOST --add-drop-table --databases $DBNAME > $DB;
 	echo "Database" $DBNAME "pulled...";
 elif [ $1 = "save" ]; then
-	$MYSQLDUMP -u $DBUSER -p$DBPASS --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
+	$MYSQLDUMP -u $DBUSER -p$DBPASS -h $DBHOST --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
 	echo "Database" $DBNAME "copied and saved...";
 elif [ $1 = "env" ]; then
 	vim .malumatenv
