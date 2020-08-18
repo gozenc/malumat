@@ -2,7 +2,7 @@
 
 #====================ENV VARS======================#
 
-DBNAME="apikal"
+DBNAME="dbname"
 DBUSER="root"
 DBHOST="localhost"
 DBPASS=""
