@@ -28,6 +28,13 @@ wordpress/
 |--- ... 
 </pre>
 
+### About .htaccess:
+Please do not forget to put a redirection for your database folder and .malumatenv file. Otherwise credentials can be seen by everyone. Adding .malumatenv into your .gitignore file is also an option. You can add redirections in .htaccess like this:
+<pre>
+Redirect 301 /.malumatenv /
+Redirect 301 /database /
+</pre>
+
 ## Available commands:
 
 `./malumat env` to set database, user credentials and MySQL executables.
