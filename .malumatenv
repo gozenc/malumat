@@ -2,11 +2,13 @@
 
 #====================ENV VARS======================#
 
+DOMAINLOCAL="http://example.test"
+DOMAINPROD="https://example.com"
 DBNAME="dbname"
 DBUSER="root"
 DBHOST="localhost"
 DBPASS=""
-MYSQL="/Applications/XAMPP/bin/mysql"
-MYSQLDUMP="/Applications/XAMPP/bin/mysqldump"
+MYSQL="$(which mysql)"
+MYSQLDUMP="$(which mysqldump)"
 
 #=====================DANKE !======================#

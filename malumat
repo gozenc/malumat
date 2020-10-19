@@ -28,6 +28,36 @@ if [ $1 = "push" ]; then
 	printf "For MySQL root user ---> ";
 	$MYSQL -u $DBUSER -p$DBPASS -h $DBHOST $DBNAME < $DB;
 	echo "Database" $DBNAME "pushed...";
+elif [ $1 = "rename" ]; then
+		LOCALURL=$(sed 's/\//\\\//g' <<< $DOMAINLOCAL);
+		PRODURL=$(sed 's/\//\\\//g' <<< $DOMAINPROD);
+		if [[ $2 = "" ]]; then
+			echo '';
+			echo 'No flag passed in input. You can pass:';
+			echo '';
+			echo 'rename -l flag to rename from production domain name to local domain name.';
+			echo 'rename -p flag to rename from local domain name to production domain name.';
+			echo '';
+		elif [[ $2 = "-l" ]]; then
+			if [ "$(uname)" == "Darwin" ]; then
+				sed -i '' "s/$PRODURL/$LOCALURL/g" $DB;
+			else 
+				sed -i "s/$PRODURL/$LOCALURL/g" $DB;
+			fi
+		elif [[ $2 = "-p" ]]; then
+			if [ "$(uname)" == "Darwin" ]; then
+				sed -i '' "s/$LOCALURL/$PRODURL/g" $DB;
+			else 
+				sed -i "s/$LOCALURL/$PRODURL/g" $DB;
+			fi
+		else
+			echo '';
+			echo 'Incorrect flag passed. You can pass:';
+			echo '';
+			echo 'rename -l flag to rename from production domain name to local domain name.';
+			echo 'rename -p flag to rename from local domain name to production domain name.';
+			echo '';
+		fi
 elif [ $1 = "pull" ]; then
 	$MYSQLDUMP -u $DBUSER -p$DBPASS -h $DBHOST --add-drop-table --databases $DBNAME > $DB;
 	echo "Database" $DBNAME "pulled...";
@@ -35,14 +65,12 @@ elif [ $1 = "save" ]; then
 	$MYSQLDUMP -u $DBUSER -p$DBPASS -h $DBHOST --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
 	echo "Database" $DBNAME "copied and saved...";
 elif [ $1 = "env" ]; then
-	vim .malumatenv
+	vi .malumatenv
 elif [ $1 = "show" ]; then
 	ls $DBPATH;
 elif [ $1 = "create" ]; then
 	mkdir $DBPATH;
-	vim .malumatenv
-elif [ $1 = "renameto" ]; then
-	cp $DB $DBPATH"/"$2.sql.bak && sed -i '' "s/"$DBNAME"/"$2"/" $DBPATH"/"$2.sql.bak && sed -i '' "s/"$DBNAME"/"$2"/" .malumatenv
+	vi .malumatenv
 elif [ $1 = "flush" ]; then
 	while true; do
 		read -p "Are you sure to flush your $DBNAME database saves? " yn
@@ -76,29 +104,3 @@ else
 	echo "";
 
 fi
-
-
-#===================TESTING AREA====================#
-
-#input="junk"
-#inputArray=()
-#i=0
-#while [ "$input" != "" ]; [ $i -le 2 ]; do 
-#	if [ i = 0 ]; then
-#		read -p "Enter database user: " input
-#		inputArray+=("$input");
-#		i=$(( $i + 1 ));
-#	elif [ i = 1 ]; then
-#		read -p "Enter database name: " input
-#		inputArray+=("$input");
-#		i=$(( $i + 1 ));
-#	elif [ i = 2 ]; then
-#		read -p "Enter database password: " input
-#		inputArray+=("$input");
-#		i=$(( $i + 1 ));
-#	else
-#		for arg in "${inputArray[@]}"; do
-#		    [ ! -z "$arg" ] && printf "%s\n" "$arg"
-#		done
-#	fi
-#done < file.txt
