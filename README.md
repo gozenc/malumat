@@ -2,12 +2,11 @@
 
 ## A simple but useful MySQL version control system
 
-A MySQL database version control system that you can use with XAMPP, MAMP, WAMP installations on MacOSX. I wrote this because I wanted to also push database files in Git commits. Pretty useful for me in Wordpress projects. Just setup your credentials with `./malumat env` then, add your **mysqldump** and **mysql** executables, then push & pull like Git. Save your work then add it to your repo. Probably there are thousands of scripts like that but I just needed a basic one for myself. 
+A MySQL database version control system that you can use with XAMPP, MAMP, WAMP installations on MacOSX. I wrote this because I wanted to also push database files in Git commits. Pretty useful for me in Wordpress projects. Just setup your credentials with `./malumat env` then, add your `mysqldump` and `mysql` executables, then push & pull like Git. Save your work then add it to your repo. Probably there are thousands of scripts like that but I just needed a basic one for myself. If you don't add `mysqldump` and `mysql` executables it will use system default.
 
 ## Now Windows is also supported
 
 Needs work but I already needed to use it in Windows, so I'll develop it in time. You can enter your database credentials in `malumat.bat` and type `malumat.bat pull` or `push`. Other commands will be added in future.
-
 
 ## Sample usage in Wordpress folder structure:
 
@@ -29,7 +28,7 @@ wordpress/
 </pre>
 
 ### About .htaccess:
-Please do not forget to put a redirection for your database folder and .malumatenv file. Otherwise credentials can be seen by everyone. Adding .malumatenv into your .gitignore file is also an option. You can add redirections in .htaccess like this:
+Please do not forget to put a redirection for your database folder and .malumatenv file. Otherwise credentials can be seen by everyone. Or you can edit file permissions from your server of course. Adding .malumatenv into your .gitignore file is also an option. You can add redirections in .htaccess like this:
 <pre>
 Redirect 301 /.malumatenv /
 Redirect 301 /database /
@@ -40,6 +39,7 @@ Redirect 301 /database /
 `./malumat env` to set database, user credentials and MySQL executables.
 `./malumat push` to push the database from your local ./database folder to your MySQL installation.
 `./malumat pull` to pull the database content from your MySQL installation.
+`./malumat rename` `-l` or `-p` to rename domain name for your local or production server.
 `./malumat save` to save a copy of the database content from your MySQL installation.
 `./malumat show` to see what you saved in ./database
 `./malumat flush` to remove all temporary saves in ./database

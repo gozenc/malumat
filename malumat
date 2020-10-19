@@ -32,12 +32,12 @@ elif [ $1 = "rename" ]; then
 		LOCALURL=$(sed 's/\//\\\//g' <<< $DOMAINLOCAL);
 		PRODURL=$(sed 's/\//\\\//g' <<< $DOMAINPROD);
 		if [[ $2 = "" ]]; then
-			echo '';
-			echo 'No flag passed in input. You can pass:';
-			echo '';
-			echo 'rename -l flag to rename from production domain name to local domain name.';
-			echo 'rename -p flag to rename from local domain name to production domain name.';
-			echo '';
+			echo "";
+			echo "No flag passed in input. You can pass:";
+			echo "";
+			echo -e "${LIGHTBLUE}rename -l${NC} flag to rename from production domain name to local domain name.";
+			echo -e "${LIGHTBLUE}rename -p${NC} flag to rename from local domain name to production domain name.";
+			echo "";
 		elif [[ $2 = "-l" ]]; then
 			if [ "$(uname)" == "Darwin" ]; then
 				sed -i '' "s/$PRODURL/$LOCALURL/g" $DB;
@@ -51,12 +51,12 @@ elif [ $1 = "rename" ]; then
 				sed -i "s/$LOCALURL/$PRODURL/g" $DB;
 			fi
 		else
-			echo '';
-			echo 'Incorrect flag passed. You can pass:';
-			echo '';
-			echo 'rename -l flag to rename from production domain name to local domain name.';
-			echo 'rename -p flag to rename from local domain name to production domain name.';
-			echo '';
+			echo "";
+			echo "Incorrect flag passed. You can pass:";
+			echo "";
+			echo -e "${LIGHTBLUE}rename -l${NC} flag to rename from production domain name to local domain name.";
+			echo -e "${LIGHTBLUE}rename -p${NC} flag to rename from local domain name to production domain name.";
+			echo "";
 		fi
 elif [ $1 = "pull" ]; then
 	$MYSQLDUMP -u $DBUSER -p$DBPASS -h $DBHOST --add-drop-table --databases $DBNAME > $DB;
@@ -85,7 +85,7 @@ elif [ $1 = "help" ]; then
 	echo -e "${CYAN}USE"	"./malumat env${NC} to set database, user credentials and MySQL executables.";
 	echo -e "${BROWN}USE"	"./malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
 	echo -e "${BLUE}USE"	"./malumat pull${NC} to pull the database content from your MySQL installation.";
-	echo -e "${LIGHTBLUE}USE"	"./malumat renameto yournewname${NC} to get copy of the current database, rename and set is as default database.";
+	echo -e "${LIGHTBLUE}USE"	"./malumat rename -l or -p${NC} to rename between local or production domain names.";
 	echo -e "${GREEN}USE"	"./malumat save${NC} to save a copy of the database content from your MySQL installation.";
 	echo -e "${PURPLE}USE"	"./malumat show${NC} to see what you saved in "$DBPATH;
 	echo -e "${RED}USE"	"./malumat flush${NC} to remove all temporary saves in "$DBPATH;
@@ -97,7 +97,7 @@ else
 	echo -e "${CYAN}USE"	"./malumat env${NC} to set database, user credentials and MySQL executables.";
 	echo -e "${BROWN}USE"	"./malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
 	echo -e "${BLUE}USE"	"./malumat pull${NC} to pull the database content from your MySQL installation.";
-	echo -e "${LIGHTBLUE}USE"	"./malumat renameto yournewname${NC} to get copy of the current database, rename and set is as default database.";
+	echo -e "${LIGHTBLUE}USE"	"./malumat rename -l or -p${NC} to rename between local or production domain names.";
 	echo -e "${GREEN}USE"	"./malumat save${NC} to save a copy of the database content from your MySQL installation.";
 	echo -e "${PURPLE}USE"	"./malumat show${NC} to see what you saved in "$DBPATH;
 	echo -e "${RED}USE"	"./malumat flush${NC} to remove all temporary saves in "$DBPATH;
