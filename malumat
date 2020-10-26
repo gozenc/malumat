@@ -40,13 +40,13 @@ elif [ $1 = "rename" ]; then
 			echo "";
 		elif [[ $2 = "-l" ]]; then
 			if [ "$(uname)" == "Darwin" ]; then
-				sed -i '' "s/$PRODURL/$LOCALURL/g" $DB;
+				LC_CTYPE=C sed -i '' "s/$PRODURL/$LOCALURL/g" $DB;
 			else 
 				sed -i "s/$PRODURL/$LOCALURL/g" $DB;
 			fi
 		elif [[ $2 = "-p" ]]; then
 			if [ "$(uname)" == "Darwin" ]; then
-				sed -i '' "s/$LOCALURL/$PRODURL/g" $DB;
+				LC_CTYPE=C sed -i '' "s/$LOCALURL/$PRODURL/g" $DB;
 			else 
 				sed -i "s/$LOCALURL/$PRODURL/g" $DB;
 			fi
