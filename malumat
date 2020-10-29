@@ -45,6 +45,8 @@ MYSQLDUMP="$(which mysqldump)"
 		esac
 	done
 	exit;
+else 
+	source ./.malumatenv
 fi
 
 #=====================CONFIG======================#
