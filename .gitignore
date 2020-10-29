@@ -1,2 +1,4 @@
 database/
 database/*
+.DS_Store
+*.swp
