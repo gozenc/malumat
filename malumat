@@ -2,7 +2,48 @@
 
 sourcecmd=$(source ./.malumatenv 2>&1 1>/dev/null)
 if [[ $? != 0 ]]; then
-	printf "\n.malumatenv file not found.\nCreate .malumatenv file in your project folder.\n\n";
+	printf ".malumatenv file not found.\n";
+	while true; do
+		read -p "Would you like to create .malumatenv file?" yn
+		case $yn in
+			[Yy]* ) 
+				printf "Enter local domain name. E.g http://example.test\n"
+				read DOMAINLOCAL;
+				printf "Enter production domain name. E.g https://example.com\n"
+				read DOMAINPROD;
+				printf "Enter database name.\n"
+				read DBNAME;
+				printf "Enter database username.\n"
+				read DBUSER;
+				printf "Enter database hostname.\n"
+				read DBHOST;
+				printf "Enter database password.\n"
+				read DBPASS;
+				cat <<< '#!/bin/bash
+
+#====================ENV VARS======================#
+
+DOMAINLOCAL="'$DOMAINLOCAL'"
+DOMAINPROD="'$DOMAINPROD'"
+DBNAME="'$DBNAME'"
+DBUSER="'$DBUSER'"
+DBHOST="'$DBHOST'"
+DBPASS="'$DBPASS'"
+MYSQL="$(which mysql)"
+MYSQLDUMP="$(which mysqldump)"
+
+#=====================DANKE !======================#		
+				' > .malumatenv;
+				mkdir ./database;
+				echo "";
+				echo ".malumatenv file and database folder created successfully."
+				echo "";
+				printf "You can start pull, push and rename your database...\n\n"
+				break;;
+			[Nn]* ) echo "Allright, bye..."; exit;;
+			* ) echo "Please answer yes or no.";;
+		esac
+	done
 	exit;
 fi
 
