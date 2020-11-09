@@ -167,19 +167,19 @@ elif [[ $1 = "flush" ]]; then
 	done
 elif [[ $1 = "help" ]]; then
 	echo "";
-	echo -e "RUN"	"${CYAN}malumat env${NC} to set database, user credentials and MySQL executables.";
-	echo -e "RUN"	"${BROWN}malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
-	echo -e "RUN"	"${BLUE}malumat pull${NC} to pull the database content from your MySQL installation.";
-	echo -e "RUN"	"${GREEN}malumat save${NC} to save a copy of the database from your MySQL installation.";
-	echo -e "RUN"	"${CYAN}malumat -r init${NC} to create an SSH tunnel with your remote MySQL server.";
-	echo -e "RUN"	"${BROWN}malumat -r push${NC} to push database from your local ./database folder to your remote MySQL server.";
-	echo -e "RUN"	"${BLUE}malumat -r pull${NC} to pull database from your remote MySQL server.";
-	echo -e "RUN"	"${GREEN}malumat -r save${NC} to save a copy of the database from your remote MySQL server.";
-	echo -e "RUN"	"${CYAN}malumat -r exit${NC} to close SSH tunnel with your remote MySQL database.";
-	echo -e "RUN"	"${LIGHTBLUE}malumat rename -l${NC} to rename database from production to local domain name.";
-	echo -e "RUN"	"${LIGHTBLUE}malumat rename -p${NC} to rename database from local to production domain name.";
-	echo -e "RUN"	"${PURPLE}malumat show${NC} to see what you saved in "$DBPATH;
-	echo -e "RUN"	"${RED}malumat flush${NC} to remove all temporary saves in "$DBPATH;
+	echo -e "RUN ${CYAN}malumat env${NC} to set database, user credentials and MySQL executables.";
+	echo -e "RUN ${BROWN}malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
+	echo -e "RUN ${BLUE}malumat pull${NC} to pull the database content from your MySQL installation.";
+	echo -e "RUN ${GREEN}malumat save${NC} to save a copy of the database from your MySQL installation.";
+	echo -e "RUN ${CYAN}malumat -r init${NC} to create an SSH tunnel with your remote MySQL server.";
+	echo -e "RUN ${BROWN}malumat -r push${NC} to push database from your local ./database folder to your remote MySQL server.";
+	echo -e "RUN ${BLUE}malumat -r pull${NC} to pull database from your remote MySQL server.";
+	echo -e "RUN ${GREEN}malumat -r save${NC} to save a copy of the database from your remote MySQL server.";
+	echo -e "RUN ${CYAN}malumat -r exit${NC} to close SSH tunnel with your remote MySQL database.";
+	echo -e "RUN ${LIGHTBLUE}malumat rename -l${NC} to rename database from production to local domain name.";
+	echo -e "RUN ${LIGHTBLUE}malumat rename -p${NC} to rename database from local to production domain name.";
+	echo -e "RUN ${PURPLE}malumat show${NC} to see what you saved in "$DBPATH;
+	echo -e "RUN ${RED}malumat flush${NC} to remove all temporary saves in "$DBPATH;
 	echo "";
 else
 	printf "\n'$1' is a wrong command...\nRun: 'malumat help' for available commands.\n\n"
