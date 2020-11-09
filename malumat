@@ -33,9 +33,7 @@ MYSQL="$(which mysql)"
 MYSQLDUMP="$(which mysqldump)"	
 				' > .malumatenv;
 				mkdir ./database;
-				echo "";
-				echo ".malumatenv file and database folder created successfully."
-				echo "";
+				printf "\n.malumatenv file and database folder created successfully.\n\n"
 				printf "You can start pull, push and rename your database...\n\n"
 				break;;
 			[Nn]* ) echo "Allright, bye..."; exit;;
@@ -76,14 +74,7 @@ if [[ $1 = "push" ]]; then
 elif [[ $1 = "rename" ]]; then
 		LOCALURL=$(sed 's/\//\\\//g' <<< $DOMAINLOCAL);
 		PRODURL=$(sed 's/\//\\\//g' <<< $DOMAINPROD);
-		if [[ $2 = "" ]]; then
-			echo "";
-			echo "No flag passed in input. You can pass:";
-			echo "";
-			echo -e "${LIGHTBLUE}rename -l${NC} flag to rename from production domain name to local domain name.";
-			echo -e "${LIGHTBLUE}rename -p${NC} flag to rename from local domain name to production domain name.";
-			echo "";
-		elif [[ $2 = "-l" ]]; then
+		if [[ $2 = "-l" ]]; then
 			if [ "$(uname)" == "Darwin" ]; then
 				LC_CTYPE=C sed -i '' "s/$PRODURL/$LOCALURL/g" $DB;
 			else 
@@ -96,9 +87,7 @@ elif [[ $1 = "rename" ]]; then
 				sed -i "s/$LOCALURL/$PRODURL/g" $DB;
 			fi
 		else
-			echo "";
-			echo "Incorrect flag passed. You can pass:";
-			echo "";
+			printf "\nA correct flag needed. You can pass:\n\n";
 			echo -e "${LIGHTBLUE}rename -l${NC} flag to rename from production domain name to local domain name.";
 			echo -e "${LIGHTBLUE}rename -p${NC} flag to rename from local domain name to production domain name.";
 			echo "";
@@ -141,21 +130,24 @@ elif [[ $1 = "-r" ]]; then
 	elif [[ $2 = "exit" ]]; then
 		TUNNELPID=`ps -ef | grep ssh | grep 3307 | awk '{ print $2 }'`
 		if [[ -z "$TUNNELPID" ]]; then
-			printf "Malumat remote tunnel is not active.\nTo start it, run: malumat -r init\n";
+			printf "\nMalumat remote tunnel is not active.\nTo start it, run: malumat -r init\n\n";
 		else
 			kill -9 $TUNNELPID;
-			printf "Malumat remote tunnel is closed.\nTo restart it, run: malumat -r init\n";
+			printf "\nMalumat remote tunnel is closed.\nTo restart it, run: malumat -r init\n\n";
 		fi
 	elif [[ $2 = "pull" ]]; then
-		printf "Warning! Don't forget that you're executing remote pull command.\n";
+		printf "\nWarning! Don't forget that you're executing remote pull command.\n";
 		read -p "Do yo want to continue? " yn
 		$MYSQLDUMP --host=127.0.0.1 --port=3307 -u $SSH_DBUSER -p$SSH_DBPASS --add-drop-table --databases $DBNAME > $DB;
 		echo "Database" $DBNAME "pulled...";
 	elif [[ $2 = "push" ]]; then
-		printf "Warning! Don't forget that you're executing remote push command.\n";
+		printf "\nWarning! Don't forget that you're executing remote push command.\n";
 		read -p "Do yo want to continue? " yn
 		$MYSQL --host=127.0.0.1 --port=3307 -u $SSH_DBUSER -p$SSH_DBPASS $DBNAME < $DB;
 		echo "Database" $DBNAME "pushed...";
+	elif [[ $2 = "save" ]]; then
+		$MYSQLDUMP --host=127.0.0.1 --port=3307 -u $SSH_DBUSER -p$SSH_DBPASS --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
+		echo "Database" $DBNAME "copied and saved...";
 	fi
 elif [[ $1 = "env" ]]; then
 	vi .malumatenv
@@ -175,25 +167,20 @@ elif [[ $1 = "flush" ]]; then
 	done
 elif [[ $1 = "help" ]]; then
 	echo "";
-	echo -e "${CYAN}USE"	"./malumat env${NC} to set database, user credentials and MySQL executables.";
-	echo -e "${BROWN}USE"	"./malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
-	echo -e "${BLUE}USE"	"./malumat pull${NC} to pull the database content from your MySQL installation.";
-	echo -e "${LIGHTBLUE}USE"	"./malumat rename -l or -p${NC} to rename between local or production domain names.";
-	echo -e "${GREEN}USE"	"./malumat save${NC} to save a copy of the database content from your MySQL installation.";
-	echo -e "${PURPLE}USE"	"./malumat show${NC} to see what you saved in "$DBPATH;
-	echo -e "${RED}USE"	"./malumat flush${NC} to remove all temporary saves in "$DBPATH;
+	echo -e "RUN"	"${CYAN}malumat env${NC} to set database, user credentials and MySQL executables.";
+	echo -e "RUN"	"${BROWN}malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
+	echo -e "RUN"	"${BLUE}malumat pull${NC} to pull the database content from your MySQL installation.";
+	echo -e "RUN"	"${GREEN}malumat save${NC} to save a copy of the database from your MySQL installation.";
+	echo -e "RUN"	"${CYAN}malumat -r init${NC} to create an SSH tunnel with your remote MySQL server.";
+	echo -e "RUN"	"${BROWN}malumat -r push${NC} to push database from your local ./database folder to your remote MySQL server.";
+	echo -e "RUN"	"${BLUE}malumat -r pull${NC} to pull database from your remote MySQL server.";
+	echo -e "RUN"	"${GREEN}malumat -r save${NC} to save a copy of the database from your remote MySQL server.";
+	echo -e "RUN"	"${CYAN}malumat -r exit${NC} to close SSH tunnel with your remote MySQL database.";
+	echo -e "RUN"	"${LIGHTBLUE}malumat rename -l${NC} to rename database from production to local domain name.";
+	echo -e "RUN"	"${LIGHTBLUE}malumat rename -p${NC} to rename database from local to production domain name.";
+	echo -e "RUN"	"${PURPLE}malumat show${NC} to see what you saved in "$DBPATH;
+	echo -e "RUN"	"${RED}malumat flush${NC} to remove all temporary saves in "$DBPATH;
 	echo "";
 else
-	echo "";
-	echo "'$1' is a wrong command...";
-	echo "";
-	echo -e "${CYAN}USE"	"./malumat env${NC} to set database, user credentials and MySQL executables.";
-	echo -e "${BROWN}USE"	"./malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
-	echo -e "${BLUE}USE"	"./malumat pull${NC} to pull the database content from your MySQL installation.";
-	echo -e "${LIGHTBLUE}USE"	"./malumat rename -l or -p${NC} to rename between local or production domain names.";
-	echo -e "${GREEN}USE"	"./malumat save${NC} to save a copy of the database content from your MySQL installation.";
-	echo -e "${PURPLE}USE"	"./malumat show${NC} to see what you saved in "$DBPATH;
-	echo -e "${RED}USE"	"./malumat flush${NC} to remove all temporary saves in "$DBPATH;
-	echo "";
-
+	printf "\n'$1' is a wrong command...\nRun: 'malumat help' for available commands.\n\n"
 fi
