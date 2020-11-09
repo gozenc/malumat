@@ -10,5 +10,6 @@ DBHOST="localhost"
 DBPASS=""
 MYSQL="$(which mysql)"
 MYSQLDUMP="$(which mysqldump)"
-
-#=====================DANKE !======================#
+SSH_USER="ssh-user"
+SSH_HOST="ssh-host"
+SSH_DBHOST="ssh-mysqlhost"
