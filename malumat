@@ -65,6 +65,9 @@ BASEDIR=$(pwd)
 DBPATH=$BASEDIR"/database"
 DB=$DBPATH"/"$DBNAME".sql.bak"
 
+# SSH TUNNEL PROCESS ID
+TUNNELPID=`ps -ef | grep ssh | grep 3307 | awk '{ print $2 }'`
+
 #===================START========================#
 
 if [[ $1 = "push" ]]; then
@@ -100,35 +103,38 @@ elif [[ $1 = "save" ]]; then
 	echo "Database" $DBNAME "copied and saved...";
 elif [[ $1 = "-r" ]]; then
 	if [[ $2 = "init" ]]; then
-		if [[ -z ${SSH_USER} ]]; then
-			printf "SSH password will not be asked for security reasons.\nEnter SSH username.\n"
-			read SSH_USER;
-			cat <<< 'SSH_USER="'$SSH_USER'"' >> .malumatenv
+		if [[ -z "$TUNNELPID" ]]; then
+			if [[ -z ${SSH_USER} ]]; then
+				printf "SSH password will not be asked for security reasons.\nEnter SSH username.\n"
+				read SSH_USER;
+				cat <<< 'SSH_USER="'$SSH_USER'"' >> .malumatenv
+			fi
+			if [[ -z ${SSH_HOST} ]]; then
+				printf "Enter SSH host\n"
+				read SSH_HOST;
+				cat <<< 'SSH_HOST="'$SSH_HOST'"' >> .malumatenv
+			fi
+			if [[ -z ${SSH_DBHOST} ]]; then
+				printf "Enter MySQL hostname\n"
+				read SSH_DBHOST;
+				cat <<< 'SSH_DBHOST="'$SSH_DBHOST'"' >> .malumatenv
+			fi
+			if [[ -z ${SSH_DBUSER} ]]; then
+				printf "Enter MySQL username\n"
+				read SSH_DBUSER;
+				cat <<< 'SSH_DBUSER="'$SSH_DBUSER'"' >> .malumatenv
+			fi
+			if [[ -z ${SSH_DBPASS} ]]; then
+				printf "Enter MySQL password\n"
+				read SSH_DBPASS;
+				cat <<< 'SSH_DBPASS="'$SSH_DBPASS'"' >> .malumatenv
+			fi
+			printf ".malumatenv is ready for SSH tunnel on 3307 port.\nStarting tunnel on 3307 local port...\nAfter entering you password, you can run remote commands.\nTo kill the SSH tunnel, run: malumat -r exit\n";
+			ssh -f -T $SSH_USER@$SSH_HOST -L 3307:$SSH_DBHOST:3306 -N 
+		else
+			printf "\nMalumat remote is already active.\nYou can use remote commands with malumat -r.\n\n";
 		fi
-		if [[ -z ${SSH_HOST} ]]; then
-			printf "Enter SSH host\n"
-			read SSH_HOST;
-			cat <<< 'SSH_HOST="'$SSH_HOST'"' >> .malumatenv
-		fi
-		if [[ -z ${SSH_DBHOST} ]]; then
-			printf "Enter MySQL hostname\n"
-			read SSH_DBHOST;
-			cat <<< 'SSH_DBHOST="'$SSH_DBHOST'"' >> .malumatenv
-		fi
-		if [[ -z ${SSH_DBUSER} ]]; then
-			printf "Enter MySQL username\n"
-			read SSH_DBUSER;
-			cat <<< 'SSH_DBUSER="'$SSH_DBUSER'"' >> .malumatenv
-		fi
-		if [[ -z ${SSH_DBPASS} ]]; then
-			printf "Enter MySQL password\n"
-			read SSH_DBPASS;
-			cat <<< 'SSH_DBPASS="'$SSH_DBPASS'"' >> .malumatenv
-		fi
-		printf ".malumatenv is ready for SSH tunnel on 3307 port.\nStarting tunnel on 3307 local port...\nAfter entering you password, you can run remote commands.\nTo kill the SSH tunnel, run: malumat -r exit\n";
-		ssh -f -T $SSH_USER@$SSH_HOST -L 3307:$SSH_DBHOST:3306 -N 
 	elif [[ $2 = "exit" ]]; then
-		TUNNELPID=`ps -ef | grep ssh | grep 3307 | awk '{ print $2 }'`
 		if [[ -z "$TUNNELPID" ]]; then
 			printf "\nMalumat remote tunnel is not active.\nTo start it, run: malumat -r init\n\n";
 		else
