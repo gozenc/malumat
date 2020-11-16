@@ -2,11 +2,15 @@
 
 ## A simple but useful MySQL version control system
 
-A MySQL database version control system that you can use with XAMPP, MAMP, WAMP installations on MacOSX. I wrote this because I wanted to also push database files in Git commits. Pretty useful for me in Wordpress projects. Just setup your credentials with `./malumat env` then, add your `mysqldump` and `mysql` executables, then push & pull like Git. Save your work then add it to your repo. Probably there are thousands of scripts like that but I just needed a basic one for myself. If you don't add `mysqldump` and `mysql` executables it will use system default.
+A MySQL database version control system that you can use it pure or with LAMP installations on MacOSX/Linux. I wrote this because I wanted to also push database files in Git commits. Pretty useful for me in Wordpress projects. Just define your credential variables into `.malumatenv` file, add your `mysqldump` and `mysql` executables, then push & pull like Git. Save your work then add it to your repo. Probably there are thousands of scripts like that but I just needed a basic one for myself. If you don't define spesific `mysqldump` and `mysql` executables it will use system default. You can also take a look on sample `.malumatenv` file in the repo.
 
-## Now Windows is also supported
-
-Needs work but I already needed to use it in Windows, so I'll develop it in time. You can enter your database credentials in `malumat.bat` and type `malumat.bat pull` or `push`. Other commands will be added in future.
+## Installation
+If `~/.local/bin` is in your $PATH then you're good to go.
+<pre>
+curl -o malumat https://raw.githubusercontent.com/fatihgozenc/malumat/master/malumat
+chmod u+x malumat
+mv malumat ~/.local/bin
+</pre>
 
 ## Sample usage in Wordpress folder structure:
 
@@ -20,8 +24,7 @@ wordpress/
 |--- ... 
 |--- ... 
 |--- database/
-|--- malumat
-|--- malumatenv
+|--- .malumatenv
 |--- ... 
 |--- ... 
 |--- ... 
@@ -36,17 +39,25 @@ Redirect 301 /database /
 
 ## Available commands:
 
-`./malumat env` to set database, user credentials and MySQL executables.
-`./malumat push` to push the database from your local ./database folder to your MySQL installation.
-`./malumat pull` to pull the database content from your MySQL installation.
-`./malumat rename` `-l` or `-p` to rename domain name for your local or production server.
-`./malumat save` to save a copy of the database content from your MySQL installation.
-`./malumat show` to see what you saved in ./database
-`./malumat flush` to remove all temporary saves in ./database
+`malumat env` to set database, user credentials and MySQL executables.
+`malumat push` to push the database from your local ./database folder to your MySQL installation.
+`malumat pull` to pull the database content from your MySQL installation.
+`malumat rename` `-l` or `-p` to rename domain name for your local or production server.
+`malumat save` to save a copy of the database content from your MySQL installation.
+`malumat show` to see what you saved in ./database
+`malumat flush` to remove all temporary saves in ./database
+`malumat -r init` to create an SSH tunnel with your remote MySQL server.
+`malumat -r push` to push database from your local ./database folder to your remote MySQL server.
+`malumat -r pull` to pull database from your remote MySQL server.
+`malumat -r save` to save a copy of the database from your remote MySQL server.
+`malumat -r exit` to close SSH tunnel with your remote MySQL database.
+
+## TODOs:
+• Windows support
 
 ### Thanks for interest.
 
-Needs a lot of detailed work but it is working enough for me now. I hope it may be useful for someone too. Especially for starter Wordpress developers.
+Needs more detailed work but it is working enough for me now. I hope it may be useful for someone too. Especially for Wordpress developers.
 
 
 Cheers...
