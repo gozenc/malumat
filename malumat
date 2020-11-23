@@ -34,7 +34,7 @@ DBPASS="'$DBPASS'"
 MYSQL="$(which mysql)"
 MYSQLDUMP="$(which mysqldump)"	
 				' > $BASEDIR/.malumatenv;
-				mkdir $BASEDIR/database;
+				mkdir $BASEDIR/malumatdir;
 				printf "\n.malumatenv file and database folder created successfully.\n\n"
 				printf "You can start pull, push and rename your database...\n\n"
 				break;;
@@ -61,7 +61,7 @@ LIGHTBLUE='\033[0;94m'
 DATESTR=$(date "+%Y-%m-%d-%H-%M-%S")
 
 # PATH
-DBPATH=$BASEDIR"/database"
+DBPATH=$BASEDIR"/malumatdir"
 DB=$DBPATH"/"$DBNAME".sql.bak"
 
 # SSH TUNNEL PROCESS ID
@@ -171,11 +171,11 @@ elif [[ $1 = "flush" ]]; then
 elif [[ $1 = "help" ]]; then
 	echo "";
 	echo -e "RUN ${CYAN}malumat env${NC} to set database, user credentials and MySQL executables.";
-	echo -e "RUN ${BROWN}malumat push${NC} to push the database from your local ./database folder to your MySQL installation.";
+	echo -e "RUN ${BROWN}malumat push${NC} to push the database from your local ./malumatdir folder to your MySQL installation.";
 	echo -e "RUN ${BLUE}malumat pull${NC} to pull the database content from your MySQL installation.";
 	echo -e "RUN ${GREEN}malumat save${NC} to save a copy of the database from your MySQL installation.";
 	echo -e "RUN ${CYAN}malumat -r init${NC} to create an SSH tunnel with your remote MySQL server.";
-	echo -e "RUN ${BROWN}malumat -r push${NC} to push database from your local ./database folder to your remote MySQL server.";
+	echo -e "RUN ${BROWN}malumat -r push${NC} to push database from your local ./malumatdir folder to your remote MySQL server.";
 	echo -e "RUN ${BLUE}malumat -r pull${NC} to pull database from your remote MySQL server.";
 	echo -e "RUN ${GREEN}malumat -r save${NC} to save a copy of the database from your remote MySQL server.";
 	echo -e "RUN ${CYAN}malumat -r exit${NC} to close SSH tunnel with your remote MySQL database.";

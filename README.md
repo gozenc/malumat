@@ -34,20 +34,20 @@ wordpress/
 Please do not forget to put a redirection for your database folder and .malumatenv file. Otherwise credentials can be seen by everyone. Or you can edit file permissions from your server of course. Adding .malumatenv into your .gitignore file is also an option. You can add redirections in .htaccess like this:
 <pre>
 Redirect 301 /.malumatenv /
-Redirect 301 /database /
+Redirect 301 /malumatdir /
 </pre>
 
 ## Available commands:
 
 `malumat env` to set database, user credentials and MySQL executables.
-`malumat push` to push the database from your local ./database folder to your MySQL installation.
+`malumat push` to push the database from your local ./malumatdir folder to your MySQL installation.
 `malumat pull` to pull the database content from your MySQL installation.
 `malumat rename` `-l` or `-p` to rename domain name for your local or production server.
 `malumat save` to save a copy of the database content from your MySQL installation.
-`malumat show` to see what you saved in ./database
-`malumat flush` to remove all temporary saves in ./database
+`malumat show` to see what you saved in ./malumatdir
+`malumat flush` to remove all temporary saves in ./malumatdir
 `malumat -r init` to create an SSH tunnel with your remote MySQL server.
-`malumat -r push` to push database from your local ./database folder to your remote MySQL server.
+`malumat -r push` to push database from your local ./malumatdir folder to your remote MySQL server.
 `malumat -r pull` to pull database from your remote MySQL server.
 `malumat -r save` to save a copy of the database from your remote MySQL server.
 `malumat -r exit` to close SSH tunnel with your remote MySQL database.
