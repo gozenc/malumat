@@ -95,10 +95,10 @@ elif [[ $1 = "rename" ]]; then
 			echo "";
 		fi
 elif [[ $1 = "pull" ]]; then
-	$MYSQLDUMP -u $DBUSER -p$DBPASS -h $DBHOST --add-drop-table --databases $DBNAME > $DB;
+	$MYSQLDUMP -u $DBUSER -p$DBPASS -h $DBHOST --add-drop-table --hex-blob --databases $DBNAME > $DB;
 	echo "Database" $DBNAME "pulled...";
 elif [[ $1 = "save" ]]; then
-	$MYSQLDUMP -u $DBUSER -p$DBPASS -h $DBHOST --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
+	$MYSQLDUMP -u $DBUSER -p$DBPASS -h $DBHOST --add-drop-table --hex-blob --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
 	echo "Database" $DBNAME "copied and saved...";
 elif [[ $1 = "-r" ]]; then
 	if [[ $2 = "init" ]]; then
@@ -143,7 +143,7 @@ elif [[ $1 = "-r" ]]; then
 	elif [[ $2 = "pull" ]]; then
 		printf "\nWarning! Don't forget that you're executing remote pull command.\n";
 		read -p "Do yo want to continue? " yn
-		$MYSQLDUMP --host=127.0.0.1 --port=3307 -u $SSH_DBUSER -p$SSH_DBPASS --add-drop-table --databases $DBNAME > $DB;
+		$MYSQLDUMP --host=127.0.0.1 --port=3307 -u $SSH_DBUSER -p$SSH_DBPASS --hex-blob --add-drop-table --databases $DBNAME > $DB;
 		echo "Database" $DBNAME "pulled...";
 	elif [[ $2 = "push" ]]; then
 		printf "\nWarning! Don't forget that you're executing remote push command.\n";
@@ -151,7 +151,7 @@ elif [[ $1 = "-r" ]]; then
 		$MYSQL --host=127.0.0.1 --port=3307 -u $SSH_DBUSER -p$SSH_DBPASS $DBNAME < $DB;
 		echo "Database" $DBNAME "pushed...";
 	elif [[ $2 = "save" ]]; then
-		$MYSQLDUMP --host=127.0.0.1 --port=3307 -u $SSH_DBUSER -p$SSH_DBPASS --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
+		$MYSQLDUMP --host=127.0.0.1 --port=3307 -u $SSH_DBUSER -p$SSH_DBPASS --hex-blob --add-drop-table --databases $DBNAME > $DBPATH"/"$DBNAME"-"$DATESTR".sql.bak";
 		echo "Database" $DBNAME "copied and saved...";
 	fi
 elif [[ $1 = "env" ]]; then
