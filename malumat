@@ -113,6 +113,11 @@ elif [[ $1 = "-r" ]]; then
 				read SSH_HOST;
 				cat <<< 'SSH_HOST="'$SSH_HOST'"' >> .malumatenv
 			fi
+			if [[ -z ${SSH_PORT} ]]; then
+				printf "Enter SSH port. Usually it's 22.\n"
+				read SSH_PORT;
+				cat <<< 'SSH_PORT="'$SSH_PORT'"' >> .malumatenv
+			fi
 			if [[ -z ${SSH_DBHOST} ]]; then
 				printf "Enter MySQL hostname\n"
 				read SSH_DBHOST;
@@ -129,7 +134,7 @@ elif [[ $1 = "-r" ]]; then
 				cat <<< 'SSH_DBPASS="'$SSH_DBPASS'"' >> .malumatenv
 			fi
 			printf ".malumatenv is ready for SSH tunnel on 3307 port.\nStarting tunnel on 3307 local port...\nAfter entering you password, you can run remote commands.\nTo kill the SSH tunnel, run: malumat -r exit\n";
-			ssh -f -T $SSH_USER@$SSH_HOST -L 3307:$SSH_DBHOST:3306 -N 
+			ssh -f -T -p $SSH_PORT $SSH_USER@$SSH_HOST -L 3307:$SSH_DBHOST:3306 -N 
 		else
 			printf "\nMalumat remote is already active.\nYou can use remote commands with malumat -r.\n\n";
 		fi
@@ -140,6 +145,9 @@ elif [[ $1 = "-r" ]]; then
 			kill -9 $TUNNELPID;
 			printf "\nMalumat remote tunnel is closed.\nTo restart it, run: malumat -r init\n\n";
 		fi
+	elif [[ $2 = "test" ]]; then
+		printf "\nTrying to login remote MySQL server on local port 3307.\n\n";
+		$MYSQL --port=3307 --host=127.0.0.1 -u $SSH_DBUSER -p$SSH_DBPASS;
 	elif [[ $2 = "pull" ]]; then
 		printf "\nWarning! Don't forget that you're executing remote pull command.\n";
 		read -p "Do yo want to continue? " yn
@@ -168,13 +176,14 @@ elif [[ $1 = "flush" ]]; then
 			* ) echo "Please answer yes or no.";;
 		esac
 	done
-elif [[ $1 = "help" ]]; then
+elif [[ $1 = "help" ]] || [[ $1 = "-h" ]]; then
 	echo "";
 	echo -e "RUN ${CYAN}malumat env${NC} to set database, user credentials and MySQL executables.";
 	echo -e "RUN ${BROWN}malumat push${NC} to push the database from your local ./malumatdir folder to your MySQL installation.";
 	echo -e "RUN ${BLUE}malumat pull${NC} to pull the database content from your MySQL installation.";
 	echo -e "RUN ${GREEN}malumat save${NC} to save a copy of the database from your MySQL installation.";
 	echo -e "RUN ${CYAN}malumat -r init${NC} to create an SSH tunnel with your remote MySQL server.";
+	echo -e "RUN ${CYAN}malumat -r test${NC} to test your local port:3307 is able to login your remote MySQL server.";
 	echo -e "RUN ${BROWN}malumat -r push${NC} to push database from your local ./malumatdir folder to your remote MySQL server.";
 	echo -e "RUN ${BLUE}malumat -r pull${NC} to pull database from your remote MySQL server.";
 	echo -e "RUN ${GREEN}malumat -r save${NC} to save a copy of the database from your remote MySQL server.";
@@ -185,5 +194,5 @@ elif [[ $1 = "help" ]]; then
 	echo -e "RUN ${RED}malumat flush${NC} to remove all temporary saves in "$DBPATH;
 	echo "";
 else
-	printf "\n'$1' is a wrong command...\nRun: 'malumat help' for available commands.\n\n"
+	printf "\n'$1' is a wrong command...\nRun: 'malumat help or -h' for available commands.\n\n"
 fi
